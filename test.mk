@@ -1,5 +1,5 @@
 TARGET ?= tiny_tests
-BUILD_DIR ?= ./build
+BUILD_DIR ?= ./build/test
 
 SRC_DIRS ?= \
   lib/tiny/src \

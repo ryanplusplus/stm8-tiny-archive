@@ -45,17 +45,17 @@ make -f <target>.mk
 
 ### Clean
 ```shell
-make <target>.mk clean
+make -f <target>.mk clean
 ```
 
 ### Erase via SWIM
 ```shell
-make <target>.mk erase
+make -f <target>.mk erase
 ```
 
 ### Flash via SWIM
 ```shell
-make <target>.mk upload
+make -f <target>.mk upload
 ```
 
 ## Resources

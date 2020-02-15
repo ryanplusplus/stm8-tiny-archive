@@ -145,10 +145,10 @@
       "preLaunchTask": "debug-deps-blue-207"
     },
     {
-      "name": "TDD",
+      "name": "Test",
       "type": "cppdbg",
       "request": "launch",
-      "program": "${workspaceFolder}/build/tiny_tests",
+      "program": "${workspaceFolder}/build/test/tiny_tests",
       "args": [],
       "stopAtEntry": false,
       "cwd": "${workspaceFolder}",

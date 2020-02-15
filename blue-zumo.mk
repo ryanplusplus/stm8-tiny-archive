@@ -12,6 +12,7 @@ SRC_FILES := \
 
 SRC_DIRS := \
   src/app/blue-zumo \
+  src/app/common \
 
 LIB_FILES := \
   src/peripheral/clock.c \
