@@ -3,9 +3,10 @@
  * @brief
  */
 
-#include "stm8s.h"
 #include "stm8s_clk.h"
 #include "adc1.h"
+
+#ifdef ADC1
 
 static i_tiny_adc_group_t self;
 
@@ -45,3 +46,5 @@ i_tiny_adc_group_t* adc1_init(void) {
 
   return &self;
 }
+
+#endif

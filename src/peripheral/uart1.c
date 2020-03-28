@@ -8,6 +8,8 @@
 #include "uart1.h"
 #include "tiny_single_subscriber_event.h"
 
+#ifdef UART1
+
 static struct {
   i_tiny_uart_t interface;
   tiny_single_subscriber_event_t on_send_complete;
@@ -30,7 +32,7 @@ void send(i_tiny_uart_t* _self, uint8_t byte) {
   (void)_self;
 
   UART1->DR = byte;
-  
+
   // Enable TXE (transmit data register empty) interrupt
   UART1->CR2 |= UART1_CR2_TIEN;
 }
@@ -70,3 +72,5 @@ i_tiny_uart_t* uart1_init(void) {
 
   return &self.interface;
 }
+
+#endif

@@ -3,10 +3,11 @@
  * @brief
  */
 
-#include "stm8s.h"
 #include "stm8s_clk.h"
 #include "stm8s_tim3.h"
 #include "tim3_pwm.h"
+
+#ifdef TIM3
 
 enum {
   period = 1600
@@ -93,3 +94,5 @@ i_tiny_pwm_t* tim3_pwm_channel2_init(void) {
 
   return &channel2;
 }
+
+#endif

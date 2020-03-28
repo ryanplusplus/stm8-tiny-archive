@@ -8,6 +8,8 @@
 #include "uart2.h"
 #include "tiny_single_subscriber_event.h"
 
+#ifdef UART2
+
 static struct {
   i_tiny_uart_t interface;
   tiny_single_subscriber_event_t on_send_complete;
@@ -70,3 +72,5 @@ i_tiny_uart_t* uart2_init(void) {
 
   return &self.interface;
 }
+
+#endif

@@ -12,6 +12,8 @@
 #include "stm8s_i2c.h"
 #include "i2c.h"
 
+#ifdef I2C
+
 enum {
   mode_write = I2C_DIRECTION_TX,
   mode_write_with_restart = 0x10 + I2C_DIRECTION_TX,
@@ -272,3 +274,5 @@ i_tiny_i2c_t* i2c_init(void) {
 
   return &self.interface;
 }
+
+#endif

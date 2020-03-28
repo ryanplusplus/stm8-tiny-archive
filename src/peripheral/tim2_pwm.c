@@ -8,6 +8,8 @@
 #include "stm8s_tim2.h"
 #include "tim2_pwm.h"
 
+#ifdef TIM2
+
 enum {
   period = 1600
 };
@@ -121,3 +123,5 @@ i_tiny_pwm_t* tim2_pwm_channel3_init(void) {
 
   return &channel3;
 }
+
+#endif

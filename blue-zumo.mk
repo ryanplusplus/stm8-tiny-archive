@@ -15,18 +15,13 @@ SRC_DIRS := \
   src/app/common \
 
 LIB_FILES := \
-  src/peripheral/clock.c \
-  src/peripheral/i2c.c \
-  src/peripheral/pc5_heartbeat.c \
-  src/peripheral/tim4_system_tick.c \
-  src/peripheral/watchdog.c \
 
 LIB_DIRS := \
   lib/tiny/src \
   src/device \
+  src/peripheral \
 
 INC_DIRS := \
   lib/stm8/inc \
-  src/peripheral \
 
 include makefile-worker.mk

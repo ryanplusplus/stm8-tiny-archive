@@ -3,9 +3,10 @@
  * @brief
  */
 
-#include "stm8s.h"
 #include "stm8s_clk.h"
 #include "spi.h"
+
+#ifdef SPI
 
 enum {
   mode_write,
@@ -81,3 +82,5 @@ i_tiny_spi_t* spi_init(void) {
 
   return &self.interface;
 }
+
+#endif

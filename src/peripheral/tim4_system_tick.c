@@ -6,6 +6,8 @@
 #include "tim4_system_tick.h"
 #include "stm8s_clk.h"
 
+#ifdef TIM4
+
 static i_tiny_time_source_t self;
 static volatile tiny_time_source_ticks_t ticks;
 
@@ -42,3 +44,5 @@ i_tiny_time_source_t* tim4_system_tick_init(void) {
 
   return &self;
 }
+
+#endif
