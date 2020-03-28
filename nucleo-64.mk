@@ -21,6 +21,8 @@ LIB_FILES := \
 
 LIB_DIRS := \
   lib/tiny/src \
+  src/app/common \
+  src/device \
 
 INC_DIRS := \
   lib/stm8/inc \
