@@ -8,7 +8,7 @@
 
 #include "stm8s.h"
 #include "stm8s_itc.h"
-#include "i_tiny_uart.h"
+#include "hal/i_tiny_uart.h"
 
 #ifdef UART3
 

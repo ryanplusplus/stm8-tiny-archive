@@ -7,7 +7,7 @@
 #define adc2_h
 
 #include "stm8s.h"
-#include "i_tiny_adc_group.h"
+#include "hal/i_tiny_adc_group.h"
 
 #ifdef ADC2
 

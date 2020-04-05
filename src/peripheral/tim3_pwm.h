@@ -7,7 +7,7 @@
 #define tim3_pwm_h
 
 #include "stm8s.h"
-#include "i_tiny_pwm.h"
+#include "hal/i_tiny_pwm.h"
 
 #ifdef TIM3
 

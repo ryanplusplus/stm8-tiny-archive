@@ -23,5 +23,6 @@ LIB_DIRS := \
 
 INC_DIRS := \
   lib/stm8/inc \
+  lib/tiny/include \
 
 include makefile-worker.mk

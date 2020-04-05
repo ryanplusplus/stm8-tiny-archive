@@ -8,7 +8,7 @@
 
 #include "stm8s.h"
 #include "stm8s_itc.h"
-#include "i_tiny_i2c.h"
+#include "hal/i_tiny_i2c.h"
 
 #ifdef I2C
 

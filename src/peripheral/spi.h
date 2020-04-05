@@ -10,7 +10,7 @@
 #include <stdint.h>
 #include "stm8s.h"
 #include "stm8s_itc.h"
-#include "i_tiny_spi.h"
+#include "hal/i_tiny_spi.h"
 
 #ifdef SPI
 
