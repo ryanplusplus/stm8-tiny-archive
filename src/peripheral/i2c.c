@@ -17,12 +17,13 @@
 enum {
   mode_write = I2C_DIRECTION_TX,
   mode_write_with_restart = 0x10 + I2C_DIRECTION_TX,
-  mode_read = I2C_DIRECTION_RX
+  mode_read = I2C_DIRECTION_RX,
+  mode_read_with_restart = 0x10 + I2C_DIRECTION_TX,
 };
 typedef uint8_t mode_t;
 
 static struct {
-  i_tiny_i2c_t interface;
+  i_tiny_async_i2c_t interface;
 
   mode_t mode;
 
@@ -35,11 +36,11 @@ static struct {
   uint8_t buffer_size;
   uint8_t buffer_offset;
 
-  tiny_i2c_callback_t callback;
+  tiny_async_i2c_callback_t callback;
   void* context;
 } self;
 
-static void reset(i_tiny_i2c_t* _self);
+static void reset(i_tiny_async_i2c_t* _self);
 
 void i2c_isr(void) __interrupt(ITC_IRQ_I2C) {
   volatile uint8_t dummy;
@@ -176,12 +177,12 @@ static void wait_for_stop_condition_to_be_sent(void) {
 }
 
 static void write(
-  i_tiny_i2c_t* _self,
+  i_tiny_async_i2c_t* _self,
   uint8_t address,
   bool prepare_for_restart,
   const uint8_t* buffer,
   uint8_t buffer_size,
-  tiny_i2c_callback_t callback,
+  tiny_async_i2c_callback_t callback,
   void* context) {
   (void)_self;
 
@@ -199,11 +200,12 @@ static void write(
 }
 
 static void read(
-  i_tiny_i2c_t* _self,
+  i_tiny_async_i2c_t* _self,
   uint8_t address,
+  bool prepare_for_restart,
   uint8_t* buffer,
   uint8_t buffer_size,
-  tiny_i2c_callback_t callback,
+  tiny_async_i2c_callback_t callback,
   void* context) {
   (void)_self;
 
@@ -211,7 +213,7 @@ static void read(
   self.buffer.read = buffer;
   self.buffer_size = buffer_size;
   self.buffer_offset = 0;
-  self.mode = mode_read;
+  self.mode = prepare_for_restart ? mode_read_with_restart : mode_read;
   self.callback = callback;
   self.context = context;
 
@@ -259,15 +261,15 @@ static void configure_peripheral(void) {
   I2C->CR1 = I2C_CR1_PE;
 }
 
-static void reset(i_tiny_i2c_t* _self) {
+static void reset(i_tiny_async_i2c_t* _self) {
   (void)_self;
   I2C->CR2 = I2C_CR2_SWRST;
   configure_peripheral();
 }
 
-static const i_tiny_i2c_api_t api = { write, read, reset };
+static const i_tiny_async_i2c_api_t api = { write, read, reset };
 
-i_tiny_i2c_t* i2c_init(void) {
+i_tiny_async_i2c_t* i2c_init(void) {
   reset(NULL);
 
   self.interface.api = &api;

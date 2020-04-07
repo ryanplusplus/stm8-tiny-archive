@@ -10,7 +10,7 @@
 #include <stdint.h>
 #include "stm8s.h"
 #include "stm8s_itc.h"
-#include "hal/i_tiny_spi.h"
+#include "hal/i_tiny_async_spi.h"
 
 #ifdef SPI
 
@@ -27,7 +27,7 @@ enum {
 };
 typedef uint8_t spi_baud_t;
 
-i_tiny_spi_t* spi_init(
+i_tiny_async_spi_t* spi_init(
   uint8_t cpol,
   uint8_t cpha,
   bool msb_first,

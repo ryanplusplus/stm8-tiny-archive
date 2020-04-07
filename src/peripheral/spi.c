@@ -8,67 +8,35 @@
 
 #ifdef SPI
 
-enum {
-  mode_write,
-  mode_read
-};
-typedef uint8_t mode_t;
-
 static struct {
-  i_tiny_spi_t interface;
-
-  mode_t mode;
+  i_tiny_async_spi_t interface;
   void* context;
-
-  union {
-    tiny_spi_write_callback_t write;
-    tiny_spi_read_callback_t read;
-  } callback;
+  tiny_async_spi_callback_t callback;
 } self;
 
 void spi_isr(void) __interrupt(ITC_IRQ_SPI) {
-  // Disable RX, TX interrupts
+  // Disable interrupts
   SPI->ICR = 0;
 
-  if(self.mode == mode_write) {
-    self.callback.write(self.context);
-  }
-  else if(self.mode = mode_read) {
-    self.callback.read(self.context, SPI->DR);
-  }
+  self.callback(self.context, SPI->DR);
 }
 
-static void write(i_tiny_spi_t* _self, uint8_t byte, tiny_spi_write_callback_t callback, void* context) {
+static void transfer(i_tiny_async_spi_t* _self, uint8_t byte, tiny_async_spi_callback_t callback, void* context) {
   (void)_self;
 
-  self.mode = mode_write;
-  self.callback.write = callback;
-  self.context = context;
-
-  // Enable TX interrupt
-  SPI->ICR = SPI_ICR_TXEI;
-
-  // Write byte
-  SPI->DR = byte;
-}
-
-static void read(i_tiny_spi_t* _self, tiny_spi_read_callback_t callback, void* context) {
-  (void)_self;
-
-  self.mode = mode_read;
-  self.callback.read = callback;
+  self.callback = callback;
   self.context = context;
 
   // Enable RX interrupt
   SPI->ICR = SPI_ICR_RXEI;
 
-  // Write garbage byte to clock in result
-  SPI->DR = 0;
+  // Write byte
+  SPI->DR = byte;
 }
 
-static const i_tiny_spi_api_t api = { write, read };
+static const i_tiny_async_spi_api_t api = { transfer };
 
-i_tiny_spi_t* spi_init(uint8_t cpol, uint8_t cpha, bool msb_first, spi_baud_t baud) {
+i_tiny_async_spi_t* spi_init(uint8_t cpol, uint8_t cpha, bool msb_first, spi_baud_t baud) {
   // Un-gate clock for SPI
   CLK->PCKENR1 |= (1 << CLK_PERIPHERAL_SPI);
 
