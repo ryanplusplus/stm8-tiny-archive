@@ -10,7 +10,7 @@
 #include <stddef.h>
 #include "stm8s_clk.h"
 #include "stm8s_i2c.h"
-#include "i2c.h"
+#include "async_i2c.h"
 
 #ifdef I2C
 
@@ -33,8 +33,8 @@ static struct {
     const uint8_t* write;
     uint8_t* read;
   } buffer;
-  uint8_t buffer_size;
-  uint8_t buffer_offset;
+  uint16_t buffer_size;
+  uint16_t buffer_offset;
 
   tiny_async_i2c_callback_t callback;
   void* context;
@@ -42,7 +42,7 @@ static struct {
 
 static void reset(i_tiny_async_i2c_t* _self);
 
-void i2c_isr(void) __interrupt(ITC_IRQ_I2C) {
+void async_i2c_isr(void) __interrupt(ITC_IRQ_I2C) {
   volatile uint8_t dummy;
 
   // In the case of a restart, TXE and BTF will still be set until start is sent
@@ -181,7 +181,7 @@ static void write(
   uint8_t address,
   bool prepare_for_restart,
   const uint8_t* buffer,
-  uint8_t buffer_size,
+  uint16_t buffer_size,
   tiny_async_i2c_callback_t callback,
   void* context) {
   (void)_self;
@@ -204,7 +204,7 @@ static void read(
   uint8_t address,
   bool prepare_for_restart,
   uint8_t* buffer,
-  uint8_t buffer_size,
+  uint16_t buffer_size,
   tiny_async_i2c_callback_t callback,
   void* context) {
   (void)_self;
@@ -269,7 +269,7 @@ static void reset(i_tiny_async_i2c_t* _self) {
 
 static const i_tiny_async_i2c_api_t api = { write, read, reset };
 
-i_tiny_async_i2c_t* i2c_init(void) {
+i_tiny_async_i2c_t* async_i2c_init(void) {
   reset(NULL);
 
   self.interface.api = &api;

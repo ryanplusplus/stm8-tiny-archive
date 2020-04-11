@@ -9,6 +9,7 @@
   },
   "editor.formatOnSave": true,
   "files.associations": {
-    "stm8s_clk.h": "c"
+    "stm8s_clk.h": "c",
+    "*.tcc": "c"
   }
 }
