@@ -55,6 +55,12 @@ AS := sdasstm8
 LD := sdcc
 AR := sdar
 
+define fix_deps
+	@sed -i '1s:^$1:$@:' $2
+	@echo "" >> $2
+	@grep -o ' [^ \:][^ \:]*' $2 | while read -r dep ; do echo "$$dep:\n" >> $2; done
+endef
+
 .PHONY: all
 all: $(BUILD_DIR)/$(TARGET).hex
 
@@ -87,14 +93,16 @@ TARGET_HEX_DEPS:=$(MAIN) $(OBJS) $(BUILD_DIR)/$(TARGET).lib
 $(BUILD_DIR)/$(TARGET).hex: $(TARGET_HEX_DEPS)
 	@echo Linking $(notdir $@)...
 	@$(MKDIR_P) $(dir $@)
-	@$(LD) $(LDFLAGS) -MM --out-fmt-ihx $(TARGET_HEX_DEPS) -o $@.d && sed -i '1s:^[^:]*:$@:' $@.d
+	@$(LD) $(LDFLAGS) -MM --out-fmt-ihx $(TARGET_HEX_DEPS) -o $@.d
+	@$(call fix_deps,[^:]*,$@.d)
 	@$(LD) $(LDFLAGS) --out-fmt-ihx $(TARGET_HEX_DEPS) -o $@
 
 TARGET_DEBUG_ELF_DEPS:=$(MAIN) $(DEBUG_OBJS) $(BUILD_DIR)/$(TARGET)-debug.lib
 $(BUILD_DIR)/$(TARGET)-debug.elf: $(TARGET_DEBUG_ELF_DEPS)
 	@echo Linking $(notdir $@)...
 	@$(MKDIR_P) $(dir $@)
-	@$(LD) $(LDFLAGS) -MM --out-fmt-elf $(TARGET_DEBUG_ELF_DEPS) -o $@.d && sed -i '1s:^[^:]*:$@:' $@.d
+	@$(LD) $(LDFLAGS) -MM --out-fmt-elf $(TARGET_DEBUG_ELF_DEPS) -o $@.d
+	@$(call fix_deps,[^:]*,$@.d)
 	@$(LD) $(LDFLAGS) --out-fmt-elf $(TARGET_DEBUG_ELF_DEPS) -o $@
 
 $(BUILD_DIR)/$(TARGET).lib: $(LIB_OBJS)
@@ -120,13 +128,15 @@ $(BUILD_DIR)/%.s.debug.rel: %.s
 $(BUILD_DIR)/%.c.rel: %.c
 	@echo Compiling $(notdir $@)...
 	@$(MKDIR_P) $(dir $@)
-	@$(CC) $(CFLAGS) -MM -c $< -o $(@:%.rel=%.d) && sed -i '1s:^$(notdir $(@:%.c.rel=%.rel)):$@:' $(@:%.rel=%.d)
+	@$(CC) $(CFLAGS) -MM -c $< -o $(@:%.rel=%.d)
+	@$(call fix_deps,$(notdir $(@:%.c.rel=%.rel)),$(@:%.rel=%.d))
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(BUILD_DIR)/%.c.debug.rel: %.c
 	@echo Compiling $(notdir $@)...
 	@$(MKDIR_P) $(dir $@)
-	@$(CC) $(CFLAGS) -MM -c $< -o $(@:%.rel=%.d) && sed -i '1s:^$(notdir $(@:%.c.debug.rel=%.rel)):$@:' $(@:%.rel=%.d)
+	@$(CC) $(CFLAGS) -MM -c $< -o $(@:%.rel=%.d)
+	@$(call fix_deps,$(notdir $(@:%.c.debug.rel=%.rel)),$(@:%.rel=%.d))
 	@$(CC) $(CFLAGS) -c $< --out-fmt-elf -o $@
 
 .PHONY: clean
