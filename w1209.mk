@@ -1,10 +1,11 @@
-TARGET = tiny
-BUILD_DIR = ./build/w1209
+TARGET := tiny
+BUILD_DIR := ./build/w1209
 
 DEVICE := stm8s003f3
 DEVICE_TYPE := STM8S003
 STLINK := stlinkv2
 OPENOCD_CFG := openocd/stm8s103.cfg
+TOOLCHAIN_VERSION := 4.0.0
 
 MAIN := src/app/w1209/main.c
 

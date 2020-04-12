@@ -1,10 +1,11 @@
-TARGET = tiny
-BUILD_DIR = ./build/nucleo-32
+TARGET := tiny
+BUILD_DIR := ./build/nucleo-32
 
 DEVICE := stm8s207k8
 DEVICE_TYPE := STM8S207
 STLINK := stlinkv21
 OPENOCD_CFG := openocd/stm8s207.cfg
+TOOLCHAIN_VERSION := 4.0.0
 
 MAIN := src/app/nucleo-32/main.c
 

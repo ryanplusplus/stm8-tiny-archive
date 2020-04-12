@@ -1,10 +1,11 @@
-TARGET = tiny
-BUILD_DIR = ./build/blue-207
+TARGET := tiny
+BUILD_DIR := ./build/blue-207
 
 DEVICE := stm8s207rb
 DEVICE_TYPE := STM8S207
 STLINK := stlinkv2
 OPENOCD_CFG := openocd/stm8s207.cfg
+TOOLCHAIN_VERSION := 4.0.0
 
 MAIN := src/app/blue-207/main.c
 
