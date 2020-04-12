@@ -62,6 +62,7 @@ CC := $(bin_path)/sdcc
 AS := $(bin_path)/sdasstm8
 LD := $(bin_path)/sdcc
 AR := $(bin_path)/sdar
+STM8FLASH := $(tools_path)/stm8flash/bin/stm8flash
 
 define fix_deps
 	@sed -i '1s:^$1:$@:' $2
@@ -88,14 +89,14 @@ debug-deps: erase $(BUILD_DIR)/$(TARGET)-debug.elf $(BUILD_DIR)/arm-none-eabi-gd
 
 .PHONY: upload
 upload: $(BUILD_DIR)/$(TARGET).hex
-	@stm8flash -c $(STLINK) -p $(DEVICE) -w $<
+	@$(STM8FLASH) -c $(STLINK) -p $(DEVICE) -w $<
 
 .PHONY: erase
 erase:
 	@mkdir -p $(BUILD_DIR)
 	@echo "AA" | xxd -r -p > $(BUILD_DIR)/rop.bin
-	@stm8flash -c $(STLINK) -p $(DEVICE) -s opt -w $(BUILD_DIR)/rop.bin
-	@stm8flash -c $(STLINK) -p $(DEVICE) -u
+	@$(STM8FLASH) -c $(STLINK) -p $(DEVICE) -s opt -w $(BUILD_DIR)/rop.bin
+	@$(STM8FLASH) -c $(STLINK) -p $(DEVICE) -u
 
 TARGET_HEX_DEPS := $(MAIN) $(OBJS) $(BUILD_DIR)/$(TARGET).lib
 $(BUILD_DIR)/$(TARGET).hex: $(TARGET_HEX_DEPS)

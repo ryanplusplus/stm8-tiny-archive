@@ -32,7 +32,6 @@ Note: don't use the built-in ST-Link because `openocd` doesn't like it.
 
 ## Setup
 - Install [`openocd`](https://github.com/ntfreak/openocd) (may need to build from source to get STM8 support)
-- Install [`stm8flash`](https://github.com/ryanplusplus/stm8flash)
 - Install [`stm8-gdb`](https://stm8-binutils-gdb.sourceforge.io/)
 - Copy `./tools/Linux/udev/70-st-link.rules` to `/etc/udev/` and run `udevadm control --reload-rules`
 
