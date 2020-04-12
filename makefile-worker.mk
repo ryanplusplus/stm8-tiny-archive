@@ -1,6 +1,8 @@
 worker_path := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
 tools_path := $(worker_path)tools/$(shell uname)
 toolchain_path := $(tools_path)/sdcc-$(TOOLCHAIN_VERSION)
+stm8flash_path := $(tools_path)/stm8flash/bin
+binutils_path := $(tools_path)/stm8-binutils-gdb/bin
 bin_path := $(toolchain_path)/bin
 lib_path := $(toolchain_path)/share/sdcc/lib/stm8
 
@@ -62,7 +64,6 @@ CC := $(bin_path)/sdcc
 AS := $(bin_path)/sdasstm8
 LD := $(bin_path)/sdcc
 AR := $(bin_path)/sdar
-STM8FLASH := $(tools_path)/stm8flash/bin/stm8flash
 
 define fix_deps
 	@sed -i '1s:^$1:$@:' $2
@@ -75,11 +76,11 @@ all: $(BUILD_DIR)/$(TARGET).hex
 
 $(BUILD_DIR)/arm-none-eabi-gdb:
 	@mkdir -p $(dir $@)
-	@-ln -s `which stm8-gdb` $@
+	@-ln -s $(binutils_path)/stm8-gdb $@
 
 $(BUILD_DIR)/arm-none-eabi-objdump:
 	@mkdir -p $(dir $@)
-	@-ln -s `which stm8-objdump` $@
+	@-ln -s $(binutils_path)/stm8-objdump $@
 
 $(BUILD_DIR)/openocd.cfg:
 	@cp $(OPENOCD_CFG) $@
@@ -89,14 +90,14 @@ debug-deps: erase $(BUILD_DIR)/$(TARGET)-debug.elf $(BUILD_DIR)/arm-none-eabi-gd
 
 .PHONY: upload
 upload: $(BUILD_DIR)/$(TARGET).hex
-	@$(STM8FLASH) -c $(STLINK) -p $(DEVICE) -w $<
+	@$(stm8flash_path)/stm8flash -c $(STLINK) -p $(DEVICE) -w $<
 
 .PHONY: erase
 erase:
 	@mkdir -p $(BUILD_DIR)
 	@echo "AA" | xxd -r -p > $(BUILD_DIR)/rop.bin
-	@$(STM8FLASH) -c $(STLINK) -p $(DEVICE) -s opt -w $(BUILD_DIR)/rop.bin
-	@$(STM8FLASH) -c $(STLINK) -p $(DEVICE) -u
+	@$(stm8flash_path)/stm8flash -c $(STLINK) -p $(DEVICE) -s opt -w $(BUILD_DIR)/rop.bin
+	@$(stm8flash_path)/stm8flash -c $(STLINK) -p $(DEVICE) -u
 
 TARGET_HEX_DEPS := $(MAIN) $(OBJS) $(BUILD_DIR)/$(TARGET).lib
 $(BUILD_DIR)/$(TARGET).hex: $(TARGET_HEX_DEPS)
