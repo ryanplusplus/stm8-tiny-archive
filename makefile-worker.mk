@@ -1,4 +1,4 @@
-worker_path := $(dir $(realpath $(firstword $(MAKEFILE_LIST))))
+worker_path := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 tools_path := $(worker_path)tools/$(shell uname)
 toolchain_path := $(tools_path)/sdcc-$(TOOLCHAIN_VERSION)
 stm8flash_path := $(tools_path)/stm8flash/bin
