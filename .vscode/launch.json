@@ -11,6 +11,7 @@
       "request": "launch",
       "type": "cortex-debug",
       "servertype": "openocd",
+      "serverpath": "${workspaceFolder}/build/openocd/bin/openocd",
       "runToMain": true,
       "armToolchainPath": "${workspaceRoot}/build/blue",
       "configFiles": [
@@ -25,6 +26,7 @@
       "request": "launch",
       "type": "cortex-debug",
       "servertype": "openocd",
+      "serverpath": "${workspaceFolder}/build/openocd/bin/openocd",
       "runToMain": true,
       "armToolchainPath": "${workspaceRoot}/build/blue-zumo",
       "configFiles": [
@@ -39,6 +41,7 @@
       "request": "launch",
       "type": "cortex-debug",
       "servertype": "openocd",
+      "serverpath": "${workspaceFolder}/build/openocd/bin/openocd",
       "runToMain": true,
       "armToolchainPath": "${workspaceRoot}/build/blue-atomic",
       "configFiles": [
@@ -53,6 +56,7 @@
       "request": "launch",
       "type": "cortex-debug",
       "servertype": "openocd",
+      "serverpath": "${workspaceFolder}/build/openocd/bin/openocd",
       "runToMain": true,
       "armToolchainPath": "${workspaceRoot}/build/black",
       "configFiles": [
@@ -67,6 +71,7 @@
       "request": "launch",
       "type": "cortex-debug",
       "servertype": "openocd",
+      "serverpath": "${workspaceFolder}/build/openocd/bin/openocd",
       "runToMain": true,
       "armToolchainPath": "${workspaceRoot}/build/starduino-zumo",
       "configFiles": [
@@ -81,6 +86,7 @@
       "request": "launch",
       "type": "cortex-debug",
       "servertype": "openocd",
+      "serverpath": "${workspaceFolder}/build/openocd/bin/openocd",
       "runToMain": true,
       "armToolchainPath": "${workspaceRoot}/build/discovery",
       "configFiles": [
@@ -95,6 +101,7 @@
       "request": "launch",
       "type": "cortex-debug",
       "servertype": "openocd",
+      "serverpath": "${workspaceFolder}/build/openocd/bin/openocd",
       "runToMain": true,
       "armToolchainPath": "${workspaceRoot}/build/nucleo-32",
       "configFiles": [
@@ -109,6 +116,7 @@
       "request": "launch",
       "type": "cortex-debug",
       "servertype": "openocd",
+      "serverpath": "${workspaceFolder}/build/openocd/bin/openocd",
       "runToMain": true,
       "armToolchainPath": "${workspaceRoot}/build/nucleo-64",
       "configFiles": [
@@ -123,6 +131,7 @@
       "request": "launch",
       "type": "cortex-debug",
       "servertype": "openocd",
+      "serverpath": "${workspaceFolder}/build/openocd/bin/openocd",
       "runToMain": true,
       "armToolchainPath": "${workspaceRoot}/build/w1209",
       "configFiles": [
@@ -137,6 +146,7 @@
       "request": "launch",
       "type": "cortex-debug",
       "servertype": "openocd",
+      "serverpath": "${workspaceFolder}/build/openocd/bin/openocd",
       "runToMain": true,
       "armToolchainPath": "${workspaceRoot}/build/blue-207",
       "configFiles": [

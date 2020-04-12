@@ -3,6 +3,7 @@ tools_path := $(worker_path)tools/$(shell uname)
 toolchain_path := $(tools_path)/sdcc-$(TOOLCHAIN_VERSION)
 stm8flash_path := $(tools_path)/stm8flash/bin
 binutils_path := $(tools_path)/stm8-binutils-gdb/bin
+openocd_path := $(tools_path)/openocd
 bin_path := $(toolchain_path)/bin
 lib_path := $(toolchain_path)/share/sdcc/lib/stm8
 
@@ -82,11 +83,15 @@ $(BUILD_DIR)/arm-none-eabi-objdump:
 	@mkdir -p $(dir $@)
 	@-ln -s $(binutils_path)/stm8-objdump $@
 
+$(BUILD_DIR)/openocd:
+	@mkdir -p $(dir $@)
+	@-ln -s $(openocd_path) $@
+
 $(BUILD_DIR)/openocd.cfg:
 	@cp $(OPENOCD_CFG) $@
 
 .PHONY: debug-deps
-debug-deps: erase $(BUILD_DIR)/$(TARGET)-debug.elf $(BUILD_DIR)/arm-none-eabi-gdb $(BUILD_DIR)/arm-none-eabi-objdump $(BUILD_DIR)/openocd.cfg
+debug-deps: erase $(BUILD_DIR)/$(TARGET)-debug.elf $(BUILD_DIR)/arm-none-eabi-gdb $(BUILD_DIR)/arm-none-eabi-objdump $(BUILD_DIR)/openocd $(BUILD_DIR)/openocd.cfg
 
 .PHONY: upload
 upload: $(BUILD_DIR)/$(TARGET).hex
